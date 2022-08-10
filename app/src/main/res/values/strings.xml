@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">ByeongChaeTalk</string>
+    <string name="app_name">병카오톡</string>
+    <string name="ByeongChaeTalk">병채톡</string>
+    <string name="signUp"><u>회원가입</u></string>
 </resources>

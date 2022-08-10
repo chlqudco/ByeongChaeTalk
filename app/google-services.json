@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "292612407878",
+    "firebase_url": "https://byeongchaetalk-default-rtdb.firebaseio.com",
+    "project_id": "byeongchaetalk",
+    "storage_bucket": "byeongchaetalk.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:292612407878:android:806858f607ba9082dc4047",
+        "android_client_info": {
+          "package_name": "com.chlqudco.develop.byeongchaetalk"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "292612407878-1uhd1trpc01nfj8h3cmcou4haph4rr2r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAe0zHzyjsjKlKIRXFYpDdcpDgEoD5jNdU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "292612407878-1uhd1trpc01nfj8h3cmcou4haph4rr2r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

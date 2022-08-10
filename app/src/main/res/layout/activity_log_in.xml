@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".presentation.login.LogInActivity">
+
+    <ImageView
+        android:id="@+id/LogInCarrotImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="300dp"
+        android:padding="30dp"
+        android:layout_marginTop="50dp"
+        android:src="@drawable/talk_icon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:layout_marginTop="50dp"
+        android:id="@+id/LogInMainCarrotMarketTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/diary_font"
+        android:text="@string/ByeongChaeTalk"
+        android:textColor="@color/black"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/LogInCarrotImageView" />
+
+
+    <EditText
+        android:id="@+id/LogInIdEditText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="40dp"
+        android:background="@drawable/log_in_edittext_background"
+        android:drawableStart="@drawable/id_icon"
+        android:drawablePadding="10dp"
+        android:hint="아이디"
+        android:padding="10dp"
+        android:inputType="textEmailAddress"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/LogInMainCarrotMarketTextView"
+        tools:ignore="HardcodedText,TouchTargetSizeCheck"
+        android:importantForAutofill="no" />
+
+    <EditText
+        android:id="@+id/LogInPasswordEditText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="40dp"
+        android:background="@drawable/log_in_edittext_background"
+        android:drawableStart="@drawable/password_icon"
+        android:drawablePadding="10dp"
+        android:hint="비밀번호"
+        android:padding="10dp"
+        android:inputType="textPassword"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/LogInIdEditText"
+        tools:ignore="HardcodedText,TouchTargetSizeCheck"
+        android:importantForAutofill="no" />
+
+    <Button
+        android:id="@+id/LogInSignInButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:backgroundTint="#FF9800"
+        android:stateListAnimator="@null"
+        android:text="로그인"
+        app:layout_constraintEnd_toEndOf="@id/LogInPasswordEditText"
+        app:layout_constraintStart_toStartOf="@id/LogInPasswordEditText"
+        app:layout_constraintTop_toBottomOf="@id/LogInPasswordEditText"
+        tools:ignore="HardcodedText,TextContrastCheck" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/LogInSignUpButton"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginTop="10dp"
+        android:background="@null"
+        android:text="@string/signUp"
+        app:layout_constraintEnd_toEndOf="@id/LogInSignInButton"
+        app:layout_constraintTop_toBottomOf="@id/LogInSignInButton"
+        tools:ignore="TouchTargetSizeCheck" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
