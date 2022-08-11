@@ -34,6 +34,7 @@ internal class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>()
         if (auth.currentUser == null) {
             val intent = Intent(this, LogInActivity::class.java)
             startActivity(intent)
+            finish()
         }
 
     }
