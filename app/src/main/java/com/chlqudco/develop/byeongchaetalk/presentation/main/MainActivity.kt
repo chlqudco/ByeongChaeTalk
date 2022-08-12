@@ -40,11 +40,25 @@ internal class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>()
 
         //로그인이 안되어 있으면 로그인 하러 가기
         if (auth.currentUser == null) {
-            val intent = Intent(this, LogInActivity::class.java)
-            startActivity(intent)
-            finish()
+            goLogIn()
         }
 
+        //로그아웃 버튼 연결
+        binding.mainLogOutButton.setOnClickListener {
+            auth.signOut()
+            goLogIn()
+        }
+
+    }
+
+    fun setTopTextViewText(title: String){
+        binding.mainTopTextView.text = title
+    }
+
+    fun goLogIn(){
+        val intent = Intent(this, LogInActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 
 }

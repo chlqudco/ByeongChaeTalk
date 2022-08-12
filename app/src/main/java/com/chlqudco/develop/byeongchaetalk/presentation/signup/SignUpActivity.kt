@@ -2,9 +2,13 @@ package com.chlqudco.develop.byeongchaetalk.presentation.signup
 
 import android.os.Bundle
 import android.widget.Toast
+import com.chlqudco.develop.byeongchaetalk.data.db.FirebaseDataBaseKey.DB_NAME
+import com.chlqudco.develop.byeongchaetalk.data.db.FirebaseDataBaseKey.DB_USERS
+import com.chlqudco.develop.byeongchaetalk.data.db.FirebaseDataBaseKey.DB_USER_ID
 import com.chlqudco.develop.byeongchaetalk.databinding.ActivitySignUpBinding
 import com.chlqudco.develop.byeongchaetalk.presentation.base.BaseActivity
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import org.koin.android.ext.android.inject
 
@@ -30,6 +34,7 @@ internal class SignUpActivity : BaseActivity<SignUpViewModel, ActivitySignUpBind
             val userEmail = binding.SignUpIdEditText.text.toString()
             val password1 = binding.SignUpPasswordEditText.text.toString()
             val password2 = binding.SignUpPasswordCheckEditText.text.toString()
+            val userName = binding.SignUpNameEditText.text.toString()
 
             // 예외처리 1. 입력 안 한 칸이 있는 경우
             if (userEmail.isEmpty() || password1.isEmpty() || password2.isEmpty()){
@@ -55,9 +60,18 @@ internal class SignUpActivity : BaseActivity<SignUpViewModel, ActivitySignUpBind
                 return@setOnClickListener
             }
 
+            // 회원 가입 신청
             auth.createUserWithEmailAndPassword(userEmail, password1)
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful){
+                        // 이름 저장
+                        val userId = auth.currentUser!!.uid
+                        val currentUserDB = Firebase.database.reference.child(DB_USERS).child(userId)
+                        val user = mutableMapOf<String, Any>()
+                        user[DB_USER_ID] = userId
+                        user[DB_NAME] = userName
+                        currentUserDB.updateChildren(user)
+
                         Toast.makeText(this, "회원가입이 완료되었습니다", Toast.LENGTH_SHORT).show()
                         finish()
                     } else{
