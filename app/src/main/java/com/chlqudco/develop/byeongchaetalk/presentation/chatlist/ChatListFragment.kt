@@ -1,6 +1,7 @@
 package com.chlqudco.develop.byeongchaetalk.presentation.chatlist
 
 import android.app.AlertDialog
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -13,6 +14,7 @@ import com.chlqudco.develop.byeongchaetalk.databinding.FragmentChatListBinding
 import com.chlqudco.develop.byeongchaetalk.domain.model.ChatListModel
 import com.chlqudco.develop.byeongchaetalk.presentation.adapter.ChatListAdapter
 import com.chlqudco.develop.byeongchaetalk.presentation.base.BaseFragment
+import com.chlqudco.develop.byeongchaetalk.presentation.chat.ChatActivity
 import com.chlqudco.develop.byeongchaetalk.presentation.main.MainActivity
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
@@ -25,6 +27,7 @@ internal class ChatListFragment : BaseFragment<ChatListViewModel, FragmentChatLi
 
     private val auth by lazy { Firebase.auth }
     private lateinit var chatDB: DatabaseReference
+    private lateinit var chatDB2: DatabaseReference
     private lateinit var adapter: ChatListAdapter
     private lateinit var userDB: DatabaseReference
 
@@ -50,7 +53,10 @@ internal class ChatListFragment : BaseFragment<ChatListViewModel, FragmentChatLi
         //리사이클러 뷰 초기화
         adapter = ChatListAdapter(
             { chatListModel ->
-            Toast.makeText(context, "${chatListModel.name}과의 채팅방", Toast.LENGTH_SHORT).show()
+            //해당 사용자와의 채팅방으로 이동
+                val intent = Intent(context, ChatActivity::class.java)
+                intent.putExtra("model", chatListModel)
+                startActivity(intent)
         },
             { chatListModel ->
                 AlertDialog.Builder(context)
@@ -115,7 +121,6 @@ internal class ChatListFragment : BaseFragment<ChatListViewModel, FragmentChatLi
             override fun onCancelled(error: DatabaseError) {}
         })
 
-
         //상대방 DB 삭제
         userDB.child(model.uid).child(CHILD_CHAT).addListenerForSingleValueEvent(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -134,6 +139,10 @@ internal class ChatListFragment : BaseFragment<ChatListViewModel, FragmentChatLi
             }
             override fun onCancelled(error: DatabaseError) {}
         })
+
+        //채팅 목록 삭제
+        chatDB2 = Firebase.database.reference.child(DB_CHATS).child("${model.key}")
+        chatDB2.removeValue()
 
     }
 

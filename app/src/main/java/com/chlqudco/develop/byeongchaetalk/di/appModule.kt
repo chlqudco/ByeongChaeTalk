@@ -1,5 +1,6 @@
 package com.chlqudco.develop.byeongchaetalk.di
 
+import com.chlqudco.develop.byeongchaetalk.presentation.chat.ChatViewModel
 import com.chlqudco.develop.byeongchaetalk.presentation.chatlist.ChatListViewModel
 import com.chlqudco.develop.byeongchaetalk.presentation.login.LogInViewModel
 import com.chlqudco.develop.byeongchaetalk.presentation.main.MainViewModel
@@ -16,5 +17,6 @@ val appModule = module {
     viewModel { SignUpViewModel() }
     viewModel { ChatListViewModel() }
     viewModel { UserViewModel() }
+    viewModel { ChatViewModel() }
 
 }

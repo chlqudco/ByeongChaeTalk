@@ -2,6 +2,7 @@ package com.chlqudco.develop.byeongchaetalk.presentation.signup
 
 import android.os.Bundle
 import android.widget.Toast
+import androidx.core.view.isVisible
 import com.chlqudco.develop.byeongchaetalk.data.db.FirebaseDataBaseKey.DB_NAME
 import com.chlqudco.develop.byeongchaetalk.data.db.FirebaseDataBaseKey.DB_USERS
 import com.chlqudco.develop.byeongchaetalk.data.db.FirebaseDataBaseKey.DB_USER_ID
@@ -31,6 +32,8 @@ internal class SignUpActivity : BaseActivity<SignUpViewModel, ActivitySignUpBind
     private fun initViews() {
         //회원가입 버튼 구현
         binding.SignUpSignUpButton.setOnClickListener {
+            binding.SignUpProgressBar.isVisible = true
+
             val userEmail = binding.SignUpIdEditText.text.toString()
             val password1 = binding.SignUpPasswordEditText.text.toString()
             val password2 = binding.SignUpPasswordCheckEditText.text.toString()
@@ -73,9 +76,11 @@ internal class SignUpActivity : BaseActivity<SignUpViewModel, ActivitySignUpBind
                         currentUserDB.updateChildren(user)
 
                         Toast.makeText(this, "회원가입이 완료되었습니다", Toast.LENGTH_SHORT).show()
+                        binding.SignUpProgressBar.isVisible = false
                         finish()
                     } else{
                         Toast.makeText(this, "회원가입에 실패했습니다", Toast.LENGTH_SHORT).show()
+                        binding.SignUpProgressBar.isVisible = false
                     }
                 }
         }

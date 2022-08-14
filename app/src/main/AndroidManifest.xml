@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.chlqudco.develop.byeongchaetalk">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".AppApplication"
@@ -16,6 +16,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ByeongChaeTalk"
         tools:targetApi="31">
+        <activity
+            android:name=".presentation.chat.ChatActivity"
+            android:exported="false" />
         <activity
             android:name=".presentation.signup.SignUpActivity"
             android:exported="false" />
