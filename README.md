@@ -9,6 +9,7 @@
   - 2022-08-11 : mvvm, Koin Set Up 및 로그인 및 회원가입 UI 작업 완료
   - 2022-08-12 : Jetpack Navigation 및 Bottom Navigation Setup 완료
   - 2022-08-13 : Firebase 와 연동해 유저 목록을 불러오는 기능 구현 완료
+  - 2022-08-14 : 채팅방 생성 및 삭제 기능 구현 완료
   
 - 실행 화면
   - ![KakaoTalk_20220811_012341688](https://user-images.githubusercontent.com/68932465/183963154-d8566196-bf0c-45c2-a87b-25cf2635ee80.jpg)
