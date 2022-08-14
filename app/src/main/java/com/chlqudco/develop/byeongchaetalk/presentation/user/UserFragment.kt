@@ -78,28 +78,49 @@ internal class UserFragment : BaseFragment<UserViewModel, FragmentUserBinding>()
     }
 
     private fun createChatRoom(model: UserModel) {
-        var userName = ""
-        userDB.child(getCurrentUserID()).child("name").get().addOnSuccessListener {
-            userName = it.value.toString()
 
-            val chatKey = System.currentTimeMillis()
-            val userChatRoom = ChatListModel(model.user_id,model.name, chatKey)
-            val youChatRoom = ChatListModel(auth.currentUser!!.uid, userName, chatKey)
+        var flag = false
 
-            //유저 DB에 채팅방 추가
-            userDB.child(auth.currentUser!!.uid)
-                .child(CHILD_CHAT)
-                .push()
-                .setValue(userChatRoom)
+        //채팅방 이미 있는지 검사하기기
+        userDB.child(auth.currentUser!!.uid).child(CHILD_CHAT).addListenerForSingleValueEvent(object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                snapshot.children.forEach{
+                    val youModel = it.getValue(ChatListModel::class.java)
+                    youModel ?: return
 
-            //상태 DB에 채팅방 추가
-            userDB.child(model.user_id)
-                .child(CHILD_CHAT)
-                .push()
-                .setValue(youChatRoom)
+                    if (youModel.uid == model.user_id ){
+                        Toast.makeText(context, "이미 해당 사용자와의 채팅방이 존재합니다", Toast.LENGTH_SHORT).show()
+                        flag = true
+                        return
+                    }
+                }
+                if (!flag){
+                    var userName = ""
+                    userDB.child(getCurrentUserID()).child("name").get().addOnSuccessListener {
+                        userName = it.value.toString()
 
-            Toast.makeText(context, "채팅방이 생성되었습니다", Toast.LENGTH_SHORT).show()
-        }
+                        val chatKey = System.currentTimeMillis()
+                        val userChatRoom = ChatListModel(model.user_id,model.name, chatKey)
+                        val youChatRoom = ChatListModel(auth.currentUser!!.uid, userName, chatKey)
+
+                        //유저 DB에 채팅방 추가
+                        userDB.child(auth.currentUser!!.uid)
+                            .child(CHILD_CHAT)
+                            .push()
+                            .setValue(userChatRoom)
+
+                        //상태 DB에 채팅방 추가
+                        userDB.child(model.user_id)
+                            .child(CHILD_CHAT)
+                            .push()
+                            .setValue(youChatRoom)
+
+                        Toast.makeText(context, "채팅방이 생성되었습니다", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+            override fun onCancelled(error: DatabaseError) {}
+        })
 
     }
 
