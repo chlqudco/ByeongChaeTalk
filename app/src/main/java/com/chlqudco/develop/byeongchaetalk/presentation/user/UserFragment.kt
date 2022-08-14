@@ -22,7 +22,7 @@ internal class UserFragment : BaseFragment<UserViewModel, FragmentUserBinding>()
 
     private val auth by lazy { Firebase.auth }
     private lateinit var userDB: DatabaseReference
-    private val adapter by lazy { UserListAdapter() }
+    private lateinit var adapter: UserListAdapter
 
     private val userList = mutableListOf<UserModel>()
 
@@ -41,6 +41,10 @@ internal class UserFragment : BaseFragment<UserViewModel, FragmentUserBinding>()
         (activity as MainActivity).setTopTextViewText("유저 목록")
 
         //리사이클러뷰 초기화
+        adapter = UserListAdapter { userModel ->
+
+        }
+
         binding.userRecyclerView.adapter = adapter
         binding.userRecyclerView.layoutManager = LinearLayoutManager(context)
 

@@ -7,13 +7,18 @@ import androidx.recyclerview.widget.RecyclerView
 import com.chlqudco.develop.byeongchaetalk.databinding.ItemUserBinding
 import com.chlqudco.develop.byeongchaetalk.domain.model.UserModel
 
-class UserListAdapter : RecyclerView.Adapter<UserListAdapter.ViewHolder>(){
+class UserListAdapter(val clickListener: (UserModel) -> Unit) : RecyclerView.Adapter<UserListAdapter.ViewHolder>(){
 
     private var userList: List<UserModel> = listOf()
 
     inner class ViewHolder(private val binding: ItemUserBinding): RecyclerView.ViewHolder(binding.root){
         fun bind(user: UserModel){
+
             binding.itemUserTextView.text = user.name
+
+            binding.root.setOnClickListener {
+                clickListener(user)
+            }
         }
     }
 
@@ -34,16 +39,4 @@ class UserListAdapter : RecyclerView.Adapter<UserListAdapter.ViewHolder>(){
         notifyDataSetChanged()
     }
 
-    companion object {
-        val diffUtil = object : DiffUtil.ItemCallback<UserModel>() {
-            override fun areItemsTheSame(oldItem: UserModel, newItem: UserModel): Boolean {
-                return oldItem.user_id == newItem.user_id
-            }
-
-            override fun areContentsTheSame(oldItem: UserModel, newItem: UserModel): Boolean {
-                return oldItem == newItem
-            }
-
-        }
-    }
 }
