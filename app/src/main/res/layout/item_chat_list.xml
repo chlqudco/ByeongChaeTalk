@@ -32,4 +32,15 @@
         app:layout_constraintBottom_toBottomOf="parent"
         tools:text = "최병채님과의 채팅방"/>
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/chatListExitButton"
+        android:layout_width="50dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="10dp"
+        app:layout_constraintEnd_toEndOf="@id/chatListTopView"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@null"
+        android:text="@string/exit_chat_room"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

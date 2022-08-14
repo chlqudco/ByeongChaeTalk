@@ -1,13 +1,17 @@
 package com.chlqudco.develop.byeongchaetalk.presentation.user
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.chlqudco.develop.byeongchaetalk.data.db.FirebaseDataBaseKey.CHILD_CHAT
 import com.chlqudco.develop.byeongchaetalk.data.db.FirebaseDataBaseKey.DB_NAME
 import com.chlqudco.develop.byeongchaetalk.data.db.FirebaseDataBaseKey.DB_USERS
 import com.chlqudco.develop.byeongchaetalk.data.db.FirebaseDataBaseKey.DB_USER_ID
 import com.chlqudco.develop.byeongchaetalk.databinding.FragmentUserBinding
+import com.chlqudco.develop.byeongchaetalk.domain.model.ChatListModel
 import com.chlqudco.develop.byeongchaetalk.domain.model.UserModel
 import com.chlqudco.develop.byeongchaetalk.presentation.adapter.UserListAdapter
 import com.chlqudco.develop.byeongchaetalk.presentation.base.BaseFragment
@@ -37,12 +41,22 @@ internal class UserFragment : BaseFragment<UserViewModel, FragmentUserBinding>()
     }
 
     private fun initViews() {
+        //프로그래스바 돌려
+        binding.userProgressBar.isVisible = true
+
         //이름 바꾸기
         (activity as MainActivity).setTopTextViewText("유저 목록")
 
         //리사이클러뷰 초기화
         adapter = UserListAdapter { userModel ->
-
+            AlertDialog.Builder(context)
+                .setTitle("채팅방 생성")
+                .setMessage("${userModel.name}과의 채팅방을 만들겠습니까?")
+                .setPositiveButton("네") { _, _ ->
+                    createChatRoom(userModel)
+                }
+                .create()
+                .show()
         }
 
         binding.userRecyclerView.adapter = adapter
@@ -52,9 +66,41 @@ internal class UserFragment : BaseFragment<UserViewModel, FragmentUserBinding>()
         userDB = Firebase.database.reference.child(DB_USERS)
         val currentUserDB = userDB.child(getCurrentUserID())
         currentUserDB.addListenerForSingleValueEvent(object : ValueEventListener{
-            override fun onDataChange(snapshot: DataSnapshot) { getUserList() }
+            override fun onDataChange(snapshot: DataSnapshot) {
+                //유저 리스트 받아오고
+                getUserList()
+
+                //다 넣었으면 프로그래스바 꺼
+                binding.userProgressBar.isVisible = false
+            }
             override fun onCancelled(error: DatabaseError) {}
         })
+    }
+
+    private fun createChatRoom(model: UserModel) {
+        var userName = ""
+        userDB.child(getCurrentUserID()).child("name").get().addOnSuccessListener {
+            userName = it.value.toString()
+
+            val chatKey = System.currentTimeMillis()
+            val userChatRoom = ChatListModel(model.user_id,model.name, chatKey)
+            val youChatRoom = ChatListModel(auth.currentUser!!.uid, userName, chatKey)
+
+            //유저 DB에 채팅방 추가
+            userDB.child(auth.currentUser!!.uid)
+                .child(CHILD_CHAT)
+                .push()
+                .setValue(userChatRoom)
+
+            //상태 DB에 채팅방 추가
+            userDB.child(model.user_id)
+                .child(CHILD_CHAT)
+                .push()
+                .setValue(youChatRoom)
+
+            Toast.makeText(context, "채팅방이 생성되었습니다", Toast.LENGTH_SHORT).show()
+        }
+
     }
 
     private fun getUserList() {
@@ -78,6 +124,7 @@ internal class UserFragment : BaseFragment<UserViewModel, FragmentUserBinding>()
 
                     //어댑터에 넣어준다
                     adapter.setUserList(userList)
+
                 }
             }
             override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {}
